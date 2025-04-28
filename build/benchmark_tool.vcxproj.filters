@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\benchmark_tool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\deribit_trader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\websocket_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\websocket_server.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\trade_execution.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\latency_module.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\error_handler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_monitor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\benchmark.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_dashboard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="D:\vcpkg\installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7A261C0C-DC4E-36CD-94F8-5B01F3602AF3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

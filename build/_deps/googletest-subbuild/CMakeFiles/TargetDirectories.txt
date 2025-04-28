@@ -1,0 +1,3 @@
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/ALL_BUILD.dir
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/ZERO_CHECK.dir

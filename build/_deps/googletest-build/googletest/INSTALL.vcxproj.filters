@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\build\CMakeFiles\305e9d6f71e945bc61c23d34ff083016\INSTALL_force.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4B2722FD-DD1B-3357-AF2F-DD4C45DC6C8A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

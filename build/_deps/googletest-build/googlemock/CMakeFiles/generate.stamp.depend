@@ -1,0 +1,10 @@
+# CMake generation dependency list for this directory.
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googlemock/CMakeLists.txt
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googlemock/cmake/gmock.pc.in
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googlemock/cmake/gmock_main.pc.in
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CheckCSourceCompiles.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CheckIncludeFile.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CheckLibraryExists.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindPackageMessage.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindThreads.cmake

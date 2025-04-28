@@ -1,0 +1,34 @@
+{
+    "api": {
+        "key": "YOUR_API_KEY",
+        "secret": "YOUR_API_SECRET",
+        "test_mode": true,
+        "websocket_url": "wss://test.deribit.com/ws/api/v2"
+    },
+    "trading": {
+        "instruments": ["BTC-PERPETUAL", "ETH-PERPETUAL"],
+        "max_position_size": 1.0,
+        "max_leverage": 10,
+        "risk_limit_usd": 10000,
+        "stop_loss_percentage": 2.0,
+        "take_profit_percentage": 1.0
+    },
+    "risk_management": {
+        "max_drawdown_percent": 5.0,
+        "daily_loss_limit": 1000.0,
+        "position_timeout_seconds": 300,
+        "max_open_orders": 10
+    },
+    "performance": {
+        "max_latency_ms": 50,
+        "order_timeout_ms": 5000,
+        "reconnect_interval_ms": 1000,
+        "heartbeat_interval_ms": 30000
+    },
+    "logging": {
+        "log_level": "INFO",
+        "max_log_size_mb": 100,
+        "max_log_files": 10,
+        "log_directory": "logs"
+    }
+} 

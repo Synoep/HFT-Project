@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/googletest-populate"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/1445a6bd088723dafd1cff4170f436ba/googletest-populate.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/afe169efc4ec8d9d0ca51c198d8efc80/googletest-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-subbuild/CMakeFiles/9bb0640d44ba8f90ff0c8e5bd8067d4f/googletest-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"googletest-populate"
+		],
+		"name" : "googletest-populate"
+	}
+}

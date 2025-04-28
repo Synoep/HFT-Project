@@ -1,0 +1,18 @@
+# CMake generation dependency list for this directory.
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googletest/CMakeLists.txt
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googletest/cmake/Config.cmake.in
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googletest/cmake/gtest.pc.in
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googletest/cmake/gtest_main.pc.in
+C:/Users/being/Downloads/WebSocket_HFT-master/WebSocket_HFT-master/build/_deps/googletest-src/googletest/cmake/internal_utils.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CMakePackageConfigHelpers.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CheckCSourceCompiles.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CheckIncludeFile.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/CheckLibraryExists.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindPackageMessage.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindPython.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindPython/Support.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/FindThreads.cmake
+D:/cmake-4.0.1-windows-x86_64/cmake-4.0.1-windows-x86_64/share/cmake-4.0/Modules/WriteBasicConfigVersionFile.cmake
+D:/vcpkg/installed/x64-windows/share/python/vcpkg-cmake-wrapper.cmake
