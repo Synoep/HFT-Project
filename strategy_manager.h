@@ -1,18 +1,26 @@
 #ifndef STRATEGY_MANAGER_H
 #define STRATEGY_MANAGER_H
 
+// C++ Standard Library includes
 #include <string>
 #include <vector>
 #include <map>
-#include <mutex>
 #include <memory>
 #include <functional>
 #include <chrono>
-#include "config_manager.h"
-#include "market_data_manager.h"
-#include "risk_manager.h"
 #include <thread>
 #include <algorithm>
+
+// Boost includes
+#include <boost/thread/mutex.hpp>
+
+// Project includes
+#include "market_data_types.h"
+
+// Forward declarations
+class ConfigManager;
+class MarketDataManager;
+class RiskManager;
 
 class StrategyManager {
 public:
@@ -64,12 +72,12 @@ private:
     StrategyManager(const StrategyManager&) = delete;
     StrategyManager& operator=(const StrategyManager&) = delete;
 
-    void processMarketData(const std::string& instrument, const MarketDataManager::MarketData& data);
-    void evaluateStrategy(const std::string& name, const MarketDataManager::MarketData& data);
+    void processMarketData(const std::string& instrument, const market_data::MarketData& data);
+    void evaluateStrategy(const std::string& name, const market_data::MarketData& data);
     void executeTrade(const std::string& strategy_name, double size, double price, const std::string& side);
     void updateStrategyMetrics(const std::string& name, double pnl, bool is_winning_trade);
 
-    mutable std::mutex strategy_mutex_;
+    mutable boost::mutex strategy_mutex_;
     std::map<std::string, StrategyConfig> strategies_;
     std::map<std::string, StrategyMetrics> strategy_metrics_;
     std::function<void(const std::string&, const StrategyMetrics&)> strategy_callback_;

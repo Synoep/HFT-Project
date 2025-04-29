@@ -28,6 +28,21 @@
     <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_dashboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\config_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\strategy_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\market_data_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\risk_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\config_loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\CMakeLists.txt" />

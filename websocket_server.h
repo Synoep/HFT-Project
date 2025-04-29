@@ -29,6 +29,12 @@ public:
     WebSocketServer(const std::string& host, const std::string& port);
     ~WebSocketServer();
 
+    // Prevent copying and moving
+    WebSocketServer(const WebSocketServer&) = delete;
+    WebSocketServer& operator=(const WebSocketServer&) = delete;
+    WebSocketServer(WebSocketServer&&) = delete;
+    WebSocketServer& operator=(WebSocketServer&&) = delete;
+
     void start();
     void stop();
     void broadcast(const json& message);
@@ -51,6 +57,7 @@ private:
     asio::io_context ioc_;
     tcp::acceptor acceptor_;
     std::vector<std::thread> worker_threads_;
+    std::thread io_thread_;
     std::atomic<bool> running_{false};
     std::mutex queue_mutex_;
     std::condition_variable queue_condition_;

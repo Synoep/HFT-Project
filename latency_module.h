@@ -3,11 +3,10 @@
 #define LATENCY_MODULE_H
 
 #include <string>
-#include <chrono>
-#include <map>
 #include <vector>
+#include <map>
+#include <chrono>
 #include <mutex>
-#include <memory>
 #include <fstream>
 
 class LatencyModule {
@@ -16,13 +15,13 @@ public:
     using TimePoint = std::chrono::steady_clock::time_point;
 
     struct LatencyStats {
-        Duration min{Duration::zero()};
-        Duration max{Duration::zero()};
-        Duration avg{Duration::zero()};
-        Duration p50{Duration::zero()};
-        Duration p90{Duration::zero()};
-        Duration p99{Duration::zero()};
-        size_t count{0};
+        Duration min;
+        Duration max;
+        Duration avg;
+        Duration p50;
+        Duration p90;
+        Duration p99;
+        size_t count;
         std::chrono::system_clock::time_point timestamp;
     };
 
@@ -31,25 +30,26 @@ public:
         return instance;
     }
 
-    // Core measurement functions
     TimePoint start(const std::string& operation_id);
     void end(const std::string& operation_id, const TimePoint& start_time);
     
-    // Specific tracking functions
     void trackOrderPlacement(const Duration& latency);
     void trackMarketData(const Duration& latency);
     void trackWebSocketMessage(const Duration& latency);
     void trackTradingLoop(const Duration& latency);
 
-    // Stats retrieval functions
     LatencyStats getOrderPlacementStats() const;
     LatencyStats getMarketDataStats() const;
     LatencyStats getWebSocketStats() const;
     LatencyStats getTradingLoopStats() const;
+    LatencyStats getStats(const std::string& operation_id) const;
+    std::vector<LatencyStats> getHistoricalStats(const std::string& operation_id) const;
 
-    // Utility functions
     void saveStats(const std::string& filename) const;
     void resetStats();
+    void clearStats(const std::string& operation_id);
+    void clearAllStats();
+    void setHistorySize(size_t size);
     void log(const std::string& message);
 
 private:
@@ -62,16 +62,13 @@ private:
     void ensureLogFileOpen();
 
     mutable std::mutex mutex_;
-    std::map<std::string, std::vector<Duration>> latency_data_;
     std::ofstream log_file_;
-
-    // Operation-specific latency storage
+    size_t max_history_size_ = 1000;
+    std::map<std::string, std::vector<Duration>> latency_data_;
     std::vector<Duration> order_placement_latencies_;
     std::vector<Duration> market_data_latencies_;
     std::vector<Duration> websocket_latencies_;
     std::vector<Duration> trading_loop_latencies_;
-
-    size_t max_history_size_{1000};
 };
 
 #endif // LATENCY_MODULE_H

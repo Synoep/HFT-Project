@@ -1,8 +1,11 @@
-#include "include/strategy_manager.h"
+#include "strategy_manager.h"
+#include "config_manager.h"
+#include "market_data_manager.h"
+#include "risk_manager.h"
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
-#include <mutex>
+#include <boost/thread/lock_guard.hpp>
 #include <thread>
 #include <vector>
 #include <map>
@@ -33,7 +36,7 @@ void StrategyManager::shutdown() {
 }
 
 void StrategyManager::addStrategy(const StrategyConfig& config) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     if (strategies_.find(config.name) != strategies_.end()) {
         throw std::runtime_error("Strategy already exists: " + config.name);
@@ -52,13 +55,13 @@ void StrategyManager::addStrategy(const StrategyConfig& config) {
 }
 
 void StrategyManager::removeStrategy(const std::string& name) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     strategies_.erase(name);
     strategy_metrics_.erase(name);
 }
 
 void StrategyManager::updateStrategy(const StrategyConfig& config) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     if (strategies_.find(config.name) == strategies_.end()) {
         throw std::runtime_error("Strategy not found: " + config.name);
@@ -68,7 +71,7 @@ void StrategyManager::updateStrategy(const StrategyConfig& config) {
 }
 
 void StrategyManager::enableStrategy(const std::string& name, bool enable) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     auto it = strategies_.find(name);
     if (it == strategies_.end()) {
@@ -79,7 +82,7 @@ void StrategyManager::enableStrategy(const std::string& name, bool enable) {
 }
 
 const StrategyManager::StrategyConfig& StrategyManager::getStrategy(const std::string& name) const {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     auto it = strategies_.find(name);
     if (it == strategies_.end()) {
@@ -90,7 +93,7 @@ const StrategyManager::StrategyConfig& StrategyManager::getStrategy(const std::s
 }
 
 const StrategyManager::StrategyMetrics& StrategyManager::getStrategyMetrics(const std::string& name) const {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     auto it = strategy_metrics_.find(name);
     if (it == strategy_metrics_.end()) {
@@ -101,7 +104,7 @@ const StrategyManager::StrategyMetrics& StrategyManager::getStrategyMetrics(cons
 }
 
 std::vector<std::string> StrategyManager::getActiveStrategies() const {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     std::vector<std::string> active_strategies;
     for (const auto& [name, config] : strategies_) {
@@ -114,17 +117,17 @@ std::vector<std::string> StrategyManager::getActiveStrategies() const {
 }
 
 void StrategyManager::setStrategyCallback(std::function<void(const std::string&, const StrategyMetrics&)> callback) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     strategy_callback_ = callback;
 }
 
 void StrategyManager::setTradeCallback(std::function<void(const std::string&, double, double, const std::string&)> callback) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     trade_callback_ = callback;
 }
 
 void StrategyManager::processMarketData(const std::string& instrument, const MarketDataManager::MarketData& data) {
-    std::lock_guard<std::mutex> lock(strategy_mutex_);
+    boost::lock_guard<boost::mutex> lock(strategy_mutex_);
     
     for (const auto& [name, config] : strategies_) {
         if (config.enabled && config.instrument == instrument) {

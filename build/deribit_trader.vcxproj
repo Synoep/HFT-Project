@@ -101,17 +101,17 @@
       <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master;D:\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -163,19 +163,19 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master;D:\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -227,19 +227,19 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <DebugInformationFormat>
       </DebugInformationFormat>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master;D:\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -292,17 +292,17 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <MinimalRebuild></MinimalRebuild>
       <Optimization>MaxSpeed</Optimization>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <SupportJustMyCode></SupportJustMyCode>
       <UseFullPaths>false</UseFullPaths>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
       <ObjectFileName>$(IntDir)</ObjectFileName>
       <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
     </ClCompile>
     <ResourceCompile>
-      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;BOOST_ALL_NO_LIB;BOOST_ASIO_STANDALONE;ENABLE_PERFORMANCE_DASHBOARD;_WIN32_WINNT=0x0601;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;_HAS_STD_BYTE=0;_SCL_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;NOMINMAX;BOOST_THREAD_NO_LIB;BOOST_THREAD_DYN_LINK;BOOST_THREAD_USE_DLL;BOOST_ATOMIC_NO_LIB;BOOST_ATOMIC_DYN_LINK;BOOST_CHRONO_NO_LIB;BOOST_CHRONO_DYN_LINK;BOOST_CONTAINER_NO_LIB;BOOST_CONTAINER_DYN_LINK;BOOST_DATE_TIME_NO_LIB;BOOST_DATE_TIME_DYN_LINK;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master;D:\vcpkg\installed\x64-windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
@@ -406,6 +406,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_monitor.cpp" />
     <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\benchmark.cpp" />
     <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_dashboard.cpp" />
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\config_manager.cpp" />
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\strategy_manager.cpp" />
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\market_data_manager.cpp" />
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\risk_manager.cpp" />
+    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\config_loader.cpp" />
     <Natvis Include="D:\vcpkg\installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>

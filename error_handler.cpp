@@ -3,9 +3,21 @@
 #include <sstream>
 #include <iomanip>
 #include <ctime>
-#include <cxxabi.h>
-#include <execinfo.h>
-#include <cstdlib>
+#include <Windows.h>
+#include <DbgHelp.h>
+#pragma comment(lib, "DbgHelp.lib")
+
+// Singleton instance
+ErrorHandler* ErrorHandler::instance_ = nullptr;
+std::mutex ErrorHandler::instance_mutex_;
+
+ErrorHandler* ErrorHandler::getInstance() {
+    std::lock_guard<std::mutex> lock(instance_mutex_);
+    if (instance_ == nullptr) {
+        instance_ = new ErrorHandler();
+    }
+    return instance_;
+}
 
 ErrorHandler::ErrorHandler()
     : max_log_size_(10 * 1024 * 1024)  // 10MB default
@@ -158,44 +170,76 @@ void ErrorHandler::rotateLogs() {
 }
 
 std::string ErrorHandler::getStackTrace() {
-    const int max_frames = 50;
-    void* frames[max_frames];
-    int num_frames = backtrace(frames, max_frames);
-    char** symbols = backtrace_symbols(frames, num_frames);
-    
     std::stringstream ss;
-    for (int i = 0; i < num_frames; ++i) {
-        char* symbol = symbols[i];
-        char* demangled = nullptr;
-        int status = -1;
-        
-        // Try to demangle the symbol
-        if (symbol) {
-            char* begin = strchr(symbol, '(');
-            if (begin) {
-                char* end = strchr(begin, '+');
-                if (end) {
-                    *end = '\0';
-                    demangled = abi::__cxa_demangle(begin + 1, nullptr, nullptr, &status);
-                    *end = '+';
-                }
-            }
+    HANDLE process = GetCurrentProcess();
+    HANDLE thread = GetCurrentThread();
+    
+    // Initialize symbol handler
+    SymInitialize(process, NULL, TRUE);
+    
+    // Generate stack frames
+    CONTEXT context;
+    memset(&context, 0, sizeof(CONTEXT));
+    context.ContextFlags = CONTEXT_FULL;
+    RtlCaptureContext(&context);
+    
+    // Setup stack frame
+    STACKFRAME64 frame;
+    memset(&frame, 0, sizeof(STACKFRAME64));
+    frame.AddrPC.Offset = context.Rip;
+    frame.AddrPC.Mode = AddrModeFlat;
+    frame.AddrFrame.Offset = context.Rbp;
+    frame.AddrFrame.Mode = AddrModeFlat;
+    frame.AddrStack.Offset = context.Rsp;
+    frame.AddrStack.Mode = AddrModeFlat;
+    
+    // Walk the stack
+    for (DWORD frame_number = 0; frame_number < 50; frame_number++) {
+        if (!StackWalk64(
+            IMAGE_FILE_MACHINE_AMD64,
+            process,
+            thread,
+            &frame,
+            &context,
+            NULL,
+            SymFunctionTableAccess64,
+            SymGetModuleBase64,
+            NULL)) {
+            break;
         }
         
-        ss << "#" << i << " " << (status == 0 ? demangled : symbol) << "\n";
-        free(demangled);
+        // Get symbol info
+        char symbol_buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
+        PSYMBOL_INFO symbol = (PSYMBOL_INFO)symbol_buffer;
+        symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+        symbol->MaxNameLen = MAX_SYM_NAME;
+        
+        DWORD64 displacement = 0;
+        if (SymFromAddr(process, frame.AddrPC.Offset, &displacement, symbol)) {
+            ss << "#" << frame_number << " " << symbol->Name;
+            
+            // Get line info
+            IMAGEHLP_LINE64 line;
+            line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+            DWORD displacement_line = 0;
+            if (SymGetLineFromAddr64(process, frame.AddrPC.Offset, &displacement_line, &line)) {
+                ss << " at " << line.FileName << ":" << line.LineNumber;
+            }
+            ss << "\n";
+        }
     }
     
-    free(symbols);
+    SymCleanup(process);
     return ss.str();
 }
 
 std::string ErrorHandler::formatTimestamp(const std::chrono::system_clock::time_point& time) const {
     auto time_t = std::chrono::system_clock::to_time_t(time);
-    auto tm = std::localtime(&time_t);
+    std::tm tm;
+    localtime_s(&tm, &time_t);
     
     std::stringstream ss;
-    ss << std::put_time(tm, "%Y-%m-%d %H:%M:%S");
+    ss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
     return ss.str();
 }
 

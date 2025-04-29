@@ -36,11 +36,21 @@ WebSocketServer::~WebSocketServer() {
     info_log_.close();
 }
 
+void WebSocketServer::broadcast(const json& message) {
+    {
+        std::lock_guard<std::mutex> lock(queue_mutex_);
+        message_queue_.push(message);
+    }
+    queue_condition_.notify_one();
+}
+
 void WebSocketServer::log_error(const std::string& error_message, const std::string& context) {
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
+    std::tm tm;
+    localtime_s(&tm, &time);
     std::stringstream ss;
-    ss << std::put_time(std::localtime(&time), "%Y-%m-%d %H:%M:%S");
+    ss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
     
     std::string log_entry = "[" + ss.str() + "] [" + context + "] ERROR: " + error_message + "\n";
     error_log_ << log_entry;
@@ -51,8 +61,10 @@ void WebSocketServer::log_error(const std::string& error_message, const std::str
 void WebSocketServer::log_info(const std::string& info_message, const std::string& context) {
     auto now = std::chrono::system_clock::now();
     auto time = std::chrono::system_clock::to_time_t(now);
+    std::tm tm;
+    localtime_s(&tm, &time);
     std::stringstream ss;
-    ss << std::put_time(std::localtime(&time), "%Y-%m-%d %H:%M:%S");
+    ss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
     
     std::string log_entry = "[" + ss.str() + "] [" + context + "] INFO: " + info_message + "\n";
     info_log_ << log_entry;
@@ -95,8 +107,11 @@ void WebSocketServer::start() {
         // Start accepting connections
         accept();
         
-        // Run the I/O context
-        ioc_.run();
+        // Run the I/O context in its own thread
+        io_thread_ = std::thread([this]() {
+            ioc_.run();
+        });
+        
     } catch (const std::exception& e) {
         log_error("Failed to start server: " + std::string(e.what()), "start");
         stop();
@@ -114,6 +129,14 @@ void WebSocketServer::stop() {
         // Stop accepting new connections
         acceptor_.close();
         
+        // Stop the io_context
+        ioc_.stop();
+        
+        // Wait for the IO thread to finish
+        if (io_thread_.joinable()) {
+            io_thread_.join();
+        }
+        
         // Notify all worker threads
         queue_condition_.notify_all();
         
@@ -129,6 +152,15 @@ void WebSocketServer::stop() {
             std::lock_guard<std::mutex> lock(subscription_mutex_);
             subscriptions_.clear();
         }
+        
+        // Clear message queue
+        {
+            std::lock_guard<std::mutex> lock(queue_mutex_);
+            while (!message_queue_.empty()) {
+                message_queue_.pop();
+            }
+        }
+        
     } catch (const std::exception& e) {
         log_error("Error during server shutdown: " + std::string(e.what()), "stop");
     }
@@ -204,14 +236,6 @@ void WebSocketServer::unsubscribe(const std::string& symbol, const std::shared_p
             subscriptions_.erase(it);
         }
     }
-}
-
-void WebSocketServer::broadcast(const json& message) {
-    {
-        std::lock_guard<std::mutex> lock(queue_mutex_);
-        message_queue_.push(message);
-    }
-    queue_condition_.notify_one();
 }
 
 void WebSocketServer::process_messages() {
