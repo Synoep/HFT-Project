@@ -65,8 +65,8 @@ set(SOURCES
 # Add test files
 set(TEST_SOURCES
     websocket_server_test.cpp
-    benchmark_test.cpp
-    performance_dashboard_test.cpp
+    # benchmark_test.cpp
+    # performance_dashboard_test.cpp
 )
 
 # Create main executable

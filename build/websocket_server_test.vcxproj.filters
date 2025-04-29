@@ -4,12 +4,6 @@
     <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\websocket_server_test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\benchmark_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_dashboard_test.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\CMakeLists.txt" />

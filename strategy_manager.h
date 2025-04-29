@@ -11,6 +11,8 @@
 #include "config_manager.h"
 #include "market_data_manager.h"
 #include "risk_manager.h"
+#include <thread>
+#include <algorithm>
 
 class StrategyManager {
 public:

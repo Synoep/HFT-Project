@@ -27,7 +27,8 @@ void PerformanceDashboard::start() {
     update_thread_ = std::thread([this]() {
         while (running_) {
             update();
-            std::this_thread::sleep_for(config_.update_interval);
+            std::this_thread::sleep_for(
+                std::chrono::milliseconds(config_.update_interval_ms));
         }
     });
 }
@@ -44,41 +45,41 @@ void PerformanceDashboard::stop() {
 void PerformanceDashboard::update() {
     std::lock_guard<std::mutex> lock(mutex_);
     
-    // Update metrics from benchmark
-    auto metrics = Benchmark::getInstance().getAllMetrics();
-    metrics_history_.insert(metrics_history_.end(), metrics.begin(), metrics.end());
+    // Get metrics from both benchmark and latency module
+    auto benchmark_metrics = benchmark_.getAllMetrics();
+    metrics_history_.insert(metrics_history_.end(), 
+                          benchmark_metrics.begin(), 
+                          benchmark_metrics.end());
     
     // Trim history if needed
-    if (metrics_history_.size() > config_.max_history_points) {
-        metrics_history_.erase(metrics_history_.begin(),
-                             metrics_history_.begin() + 
-                             (metrics_history_.size() - config_.max_history_points));
+    if (metrics_history_.size() > static_cast<size_t>(config_.max_history_points)) {
+        metrics_history_.erase(
+            metrics_history_.begin(),
+            metrics_history_.begin() + 
+                (metrics_history_.size() - config_.max_history_points));
     }
     
-    // Generate new plots
-    generatePlots();
+    if (config_.enable_html_reports) {
+        generatePlots();
+    }
     
-    // Save metrics
-    saveMetrics();
+    if (config_.enable_json_export || config_.enable_csv_export) {
+        saveMetrics();
+    }
     
-    // Notify callback if set
     if (update_callback_) {
         update_callback_();
     }
 }
 
-void PerformanceDashboard::addCustomMetric(const std::string& name,
-                                         std::function<double()> getter) {
+void PerformanceDashboard::addCustomMetric(const std::string& name, double value) {
     std::lock_guard<std::mutex> lock(mutex_);
-    custom_metrics_.emplace_back(name, getter);
+    custom_metrics_[name] = value;
 }
 
 void PerformanceDashboard::removeCustomMetric(const std::string& name) {
     std::lock_guard<std::mutex> lock(mutex_);
-    custom_metrics_.erase(
-        std::remove_if(custom_metrics_.begin(), custom_metrics_.end(),
-                      [&name](const auto& pair) { return pair.first == name; }),
-        custom_metrics_.end());
+    custom_metrics_.erase(name);
 }
 
 std::string PerformanceDashboard::generateHTMLReport() const {
@@ -91,6 +92,9 @@ std::string PerformanceDashboard::generateHTMLReport() const {
 
 void PerformanceDashboard::saveHTMLReport(const std::string& filename) const {
     std::ofstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open file for writing: " + filename);
+    }
     file << generateHTMLReport();
 }
 
@@ -99,62 +103,84 @@ void PerformanceDashboard::setUpdateCallback(std::function<void()> callback) {
     update_callback_ = callback;
 }
 
-void PerformanceDashboard::generatePlots() {
-    // Implementation would use a plotting library like gnuplot or matplotlib
+void PerformanceDashboard::generatePlots() const {
+    // Implementation using a plotting library (e.g., gnuplot or matplotlib)
     // This is a placeholder for the actual implementation
 }
 
-void PerformanceDashboard::saveMetrics() {
+void PerformanceDashboard::saveMetrics() const {
+    if (config_.enable_json_export) {
+        saveMetricsJSON();
+    }
+    if (config_.enable_csv_export) {
+        saveMetricsCSV();
+    }
+}
+
+void PerformanceDashboard::saveMetricsJSON() const {
     nlohmann::json json_data;
     
     for (const auto& metric : metrics_history_) {
         nlohmann::json metric_json;
         metric_json["operation_name"] = metric.operation_name;
         metric_json["timestamp"] = std::chrono::system_clock::to_time_t(metric.timestamp);
-        
-        metric_json["latency"]["min"] = metric.latency.min_latency_ms;
-        metric_json["latency"]["max"] = metric.latency.max_latency_ms;
-        metric_json["latency"]["avg"] = metric.latency.avg_latency_ms;
-        metric_json["latency"]["p50"] = metric.latency.p50_latency_ms;
-        metric_json["latency"]["p90"] = metric.latency.p90_latency_ms;
-        metric_json["latency"]["p99"] = metric.latency.p99_latency_ms;
-        
-        metric_json["resources"]["cpu"] = metric.resources.cpu_usage_percent;
-        metric_json["resources"]["memory"] = metric.resources.memory_usage_mb;
-        metric_json["resources"]["network"] = metric.resources.network_bandwidth_mbps;
+        metric_json["average_latency_ms"] = metric.average_latency_ms;
+        metric_json["min_latency_ms"] = metric.min_latency_ms;
+        metric_json["max_latency_ms"] = metric.max_latency_ms;
+        metric_json["p95_latency_ms"] = metric.p95_latency_ms;
+        metric_json["p99_latency_ms"] = metric.p99_latency_ms;
+        metric_json["success_count"] = metric.success_count;
+        metric_json["error_count"] = metric.error_count;
+        metric_json["cpu_usage"] = metric.cpu_usage;
+        metric_json["memory_usage_mb"] = metric.memory_usage_mb;
         
         json_data.push_back(metric_json);
     }
     
+    // Add custom metrics
+    nlohmann::json custom_json;
+    for (const auto& [name, value] : custom_metrics_) {
+        custom_json[name] = value;
+    }
+    json_data["custom_metrics"] = custom_json;
+    
     std::ofstream file(config_.output_directory + "/metrics.json");
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open metrics.json for writing");
+    }
     file << json_data.dump(4);
 }
 
-void PerformanceDashboard::loadMetrics() {
-    std::ifstream file(config_.output_directory + "/metrics.json");
-    if (!file.is_open()) return;
+void PerformanceDashboard::saveMetricsCSV() const {
+    std::ofstream file(config_.output_directory + "/metrics.csv");
+    if (!file.is_open()) {
+        throw std::runtime_error("Failed to open metrics.csv for writing");
+    }
     
-    nlohmann::json json_data;
-    file >> json_data;
+    // Write header
+    file << "timestamp,operation_name,avg_latency_ms,min_latency_ms,max_latency_ms,"
+         << "p95_latency_ms,p99_latency_ms,success_count,error_count,"
+         << "cpu_usage,memory_usage_mb\n";
     
-    metrics_history_.clear();
-    for (const auto& metric_json : json_data) {
-        Benchmark::OperationMetrics metric;
-        metric.operation_name = metric_json["operation_name"];
-        metric.timestamp = std::chrono::system_clock::from_time_t(metric_json["timestamp"]);
-        
-        metric.latency.min_latency_ms = metric_json["latency"]["min"];
-        metric.latency.max_latency_ms = metric_json["latency"]["max"];
-        metric.latency.avg_latency_ms = metric_json["latency"]["avg"];
-        metric.latency.p50_latency_ms = metric_json["latency"]["p50"];
-        metric.latency.p90_latency_ms = metric_json["latency"]["p90"];
-        metric.latency.p99_latency_ms = metric_json["latency"]["p99"];
-        
-        metric.resources.cpu_usage_percent = metric_json["resources"]["cpu"];
-        metric.resources.memory_usage_mb = metric_json["resources"]["memory"];
-        metric.resources.network_bandwidth_mbps = metric_json["resources"]["network"];
-        
-        metrics_history_.push_back(metric);
+    // Write metrics
+    for (const auto& metric : metrics_history_) {
+        file << std::chrono::system_clock::to_time_t(metric.timestamp) << ","
+             << metric.operation_name << ","
+             << metric.average_latency_ms << ","
+             << metric.min_latency_ms << ","
+             << metric.max_latency_ms << ","
+             << metric.p95_latency_ms << ","
+             << metric.p99_latency_ms << ","
+             << metric.success_count << ","
+             << metric.error_count << ","
+             << metric.cpu_usage << ","
+             << metric.memory_usage_mb << "\n";
+    }
+    
+    // Write custom metrics
+    file << "\nCustom Metrics:\n";
+    for (const auto& [name, value] : custom_metrics_) {
+        file << name << "," << value << "\n";
     }
 }
 
@@ -168,47 +194,34 @@ std::string PerformanceDashboard::generateHTMLHeader() const {
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
         .plot-container { margin: 20px 0; }
+        .metric-container { margin: 20px 0; }
         table { border-collapse: collapse; width: 100%; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
     </style>
 </head>
+<body>
 )";
 }
 
 std::string PerformanceDashboard::generateHTMLBody() const {
     std::stringstream ss;
-    ss << "<body>\n"
-       << "<h1>Performance Dashboard</h1>\n"
-       << "<p>Last updated: " 
-       << std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())
-       << "</p>\n";
+    auto now = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::to_time_t(now);
     
-    if (config_.enable_latency_plot) {
-        ss << "<div class='plot-container'>\n"
-           << "<h2>Latency Metrics</h2>\n"
-           << generateLatencyPlot()
-           << "</div>\n";
-    }
-    
-    if (config_.enable_resource_plot) {
-        ss << "<div class='plot-container'>\n"
-           << "<h2>Resource Usage</h2>\n"
-           << generateResourcePlot()
-           << "</div>\n";
-    }
-    
-    if (config_.enable_error_plot) {
-        ss << "<div class='plot-container'>\n"
-           << "<h2>Error Rates</h2>\n"
-           << generateErrorPlot()
-           << "</div>\n";
-    }
-    
-    ss << "<div class='metrics-container'>\n"
-       << "<h2>Custom Metrics</h2>\n"
-       << generateCustomMetricsTable()
+    ss << "<h1>Performance Dashboard</h1>\n"
+       << "<p>Last updated: " << std::put_time(std::localtime(&time), "%Y-%m-%d %H:%M:%S") << "</p>\n"
+       << "<div class='metric-container'>\n"
+       << "<h2>Performance Metrics</h2>\n"
+       << generateMetricsTable()
        << "</div>\n";
+    
+    if (!custom_metrics_.empty()) {
+        ss << "<div class='metric-container'>\n"
+           << "<h2>Custom Metrics</h2>\n"
+           << generateCustomMetricsTable()
+           << "</div>\n";
+    }
     
     return ss.str();
 }
@@ -220,19 +233,9 @@ std::string PerformanceDashboard::generateHTMLFooter() const {
 )";
 }
 
-std::string PerformanceDashboard::generateLatencyPlot() const {
-    // Implementation would generate Plotly.js code for latency plots
-    return "<div id='latency-plot'></div>";
-}
-
-std::string PerformanceDashboard::generateResourcePlot() const {
-    // Implementation would generate Plotly.js code for resource plots
-    return "<div id='resource-plot'></div>";
-}
-
-std::string PerformanceDashboard::generateErrorPlot() const {
-    // Implementation would generate Plotly.js code for error plots
-    return "<div id='error-plot'></div>";
+std::string PerformanceDashboard::generateMetricsTable() const {
+    // Implementation would generate HTML for displaying metrics
+    return "<div id='metrics-table'></div>";
 }
 
 std::string PerformanceDashboard::generateCustomMetricsTable() const {
@@ -240,14 +243,9 @@ std::string PerformanceDashboard::generateCustomMetricsTable() const {
     ss << "<table>\n"
        << "<tr><th>Metric</th><th>Value</th></tr>\n";
     
-    for (const auto& metric : custom_metrics_) {
-        try {
-            double value = metric.second();
-            ss << "<tr><td>" << metric.first << "</td><td>" 
-               << std::fixed << std::setprecision(2) << value << "</td></tr>\n";
-        } catch (...) {
-            ss << "<tr><td>" << metric.first << "</td><td>Error</td></tr>\n";
-        }
+    for (const auto& [name, value] : custom_metrics_) {
+        ss << "<tr><td>" << name << "</td><td>" 
+           << std::fixed << std::setprecision(2) << value << "</td></tr>\n";
     }
     
     ss << "</table>\n";

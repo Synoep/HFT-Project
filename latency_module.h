@@ -2,122 +2,76 @@
 #ifndef LATENCY_MODULE_H
 #define LATENCY_MODULE_H
 
-#include <chrono>
 #include <string>
+#include <chrono>
+#include <map>
 #include <vector>
 #include <mutex>
+#include <memory>
 #include <fstream>
-#include <atomic>
-#include <map>
 
 class LatencyModule {
 public:
-    using TimePoint = std::chrono::high_resolution_clock::time_point;
-    using Duration = std::chrono::nanoseconds;
-    
+    using Duration = std::chrono::microseconds;
+    using TimePoint = std::chrono::steady_clock::time_point;
+
     struct LatencyStats {
-        Duration min_latency;
-        Duration max_latency;
-        Duration avg_latency;
-        Duration p95_latency;
-        Duration p99_latency;
-        size_t total_operations;
-        size_t error_count;
+        Duration min{Duration::zero()};
+        Duration max{Duration::zero()};
+        Duration avg{Duration::zero()};
+        Duration p50{Duration::zero()};
+        Duration p90{Duration::zero()};
+        Duration p99{Duration::zero()};
+        size_t count{0};
+        std::chrono::system_clock::time_point timestamp;
     };
-    
-    static TimePoint start() {
-        return std::chrono::high_resolution_clock::now();
+
+    static LatencyModule& getInstance() {
+        static LatencyModule instance;
+        return instance;
     }
+
+    // Core measurement functions
+    TimePoint start(const std::string& operation_id);
+    void end(const std::string& operation_id, const TimePoint& start_time);
     
-    static void trackWebSocketMessage(const Duration& latency) {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
-        webSocketLatencies_.push_back(latency);
-        updateStats(webSocketLatencies_, webSocketStats_);
-    }
-    
-    static void trackOrderPlacement(const Duration& latency) {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
-        orderLatencies_.push_back(latency);
-        updateStats(orderLatencies_, orderStats_);
-    }
-    
-    static void trackMarketData(const Duration& latency) {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
-        marketDataLatencies_.push_back(latency);
-        updateStats(marketDataLatencies_, marketDataStats_);
-    }
-    
-    static void trackError() {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
-        errorCount_++;
-    }
-    
-    static void saveStatsToFile() {
-        std::lock_guard<std::mutex> lock(stats_mutex_);
-        std::ofstream file("performance_stats.csv", std::ios::app);
-        
-        auto now = std::chrono::system_clock::now();
-        auto time = std::chrono::system_clock::to_time_t(now);
-        
-        file << "\nTimestamp: " << std::ctime(&time);
-        file << "Metric,Min,Max,Average,P95,P99,Total Operations,Errors\n";
-        
-        saveStatsToFile(file, "WebSocket", webSocketStats_);
-        saveStatsToFile(file, "Order Placement", orderStats_);
-        saveStatsToFile(file, "Market Data", marketDataStats_);
-        
-        file.close();
-    }
-    
-    static const LatencyStats& getWebSocketStats() { return webSocketStats_; }
-    static const LatencyStats& getOrderStats() { return orderStats_; }
-    static const LatencyStats& getMarketDataStats() { return marketDataStats_; }
-    static size_t getErrorCount() { return errorCount_; }
+    // Specific tracking functions
+    void trackOrderPlacement(const Duration& latency);
+    void trackMarketData(const Duration& latency);
+    void trackWebSocketMessage(const Duration& latency);
+    void trackTradingLoop(const Duration& latency);
+
+    // Stats retrieval functions
+    LatencyStats getOrderPlacementStats() const;
+    LatencyStats getMarketDataStats() const;
+    LatencyStats getWebSocketStats() const;
+    LatencyStats getTradingLoopStats() const;
+
+    // Utility functions
+    void saveStats(const std::string& filename) const;
+    void resetStats();
+    void log(const std::string& message);
 
 private:
-    static void updateStats(std::vector<Duration>& latencies, LatencyStats& stats) {
-        if (latencies.empty()) return;
-        
-        std::sort(latencies.begin(), latencies.end());
-        
-        stats.min_latency = latencies.front();
-        stats.max_latency = latencies.back();
-        
-        Duration sum = Duration::zero();
-        for (const auto& latency : latencies) {
-            sum += latency;
-        }
-        stats.avg_latency = sum / latencies.size();
-        
-        size_t p95_index = static_cast<size_t>(latencies.size() * 0.95);
-        size_t p99_index = static_cast<size_t>(latencies.size() * 0.99);
-        
-        stats.p95_latency = latencies[p95_index];
-        stats.p99_latency = latencies[p99_index];
-        
-        stats.total_operations = latencies.size();
-        stats.error_count = errorCount_;
-    }
-    
-    static void saveStatsToFile(std::ofstream& file, const std::string& name, const LatencyStats& stats) {
-        file << name << ","
-             << stats.min_latency.count() << ","
-             << stats.max_latency.count() << ","
-             << stats.avg_latency.count() << ","
-             << stats.p95_latency.count() << ","
-             << stats.p99_latency.count() << ","
-             << stats.total_operations << ","
-             << stats.error_count << "\n";
-    }
-    
-    static std::mutex stats_mutex_;
-    static std::vector<Duration> webSocketLatencies_;
-    static std::vector<Duration> orderLatencies_;
-    static std::vector<Duration> marketDataLatencies_;
-    static LatencyStats webSocketStats_;
-    static LatencyStats orderStats_;
-    static LatencyStats marketDataStats_;
-    static std::atomic<size_t> errorCount_;
+    LatencyModule();
+    ~LatencyModule();
+    LatencyModule(const LatencyModule&) = delete;
+    LatencyModule& operator=(const LatencyModule&) = delete;
+
+    void calculateStats(const std::vector<Duration>& latencies, LatencyStats& stats) const;
+    void ensureLogFileOpen();
+
+    mutable std::mutex mutex_;
+    std::map<std::string, std::vector<Duration>> latency_data_;
+    std::ofstream log_file_;
+
+    // Operation-specific latency storage
+    std::vector<Duration> order_placement_latencies_;
+    std::vector<Duration> market_data_latencies_;
+    std::vector<Duration> websocket_latencies_;
+    std::vector<Duration> trading_loop_latencies_;
+
+    size_t max_history_size_{1000};
 };
 
 #endif // LATENCY_MODULE_H

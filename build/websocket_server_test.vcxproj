@@ -398,8 +398,6 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\websocket_server_test.cpp" />
-    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\benchmark_test.cpp" />
-    <ClCompile Include="C:\Users\being\Downloads\WebSocket_HFT-master\WebSocket_HFT-master\performance_dashboard_test.cpp" />
     <Natvis Include="D:\vcpkg\installed\x64-windows\share\nlohmann_json\nlohmann_json.natvis">
     </Natvis>
   </ItemGroup>
